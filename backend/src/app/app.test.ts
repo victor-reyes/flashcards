@@ -1,6 +1,7 @@
 import test from "node:test";
 import { deepEqual } from "node:assert/strict";
 import request from "supertest";
+import { creatApp } from ".";
 
 test("App is up and running", async () => {
   const app = creatApp();

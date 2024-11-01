@@ -4,11 +4,13 @@ import { createRepository, createRouter } from "../flashcards";
 export function creatApp() {
   const app = express();
 
+  app.use(express.json());
+
   app.get("/", (_, res) => {
     res.sendStatus(200);
   });
 
-  const flashcardsRepository = createRepository()
+  const flashcardsRepository = createRepository();
   const flashcardsRouter = createRouter(flashcardsRepository);
   app.use("/api/flashcards", flashcardsRouter);
   return app;

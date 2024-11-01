@@ -35,3 +35,14 @@ test("POST api/flashcards adds a flashcard", async () => {
   deepEqual(flashcard.question, postFlashcard.question);
   deepEqual(flashcard.answer, postFlashcard.answer);
 });
+
+test("POST api/flashcards returns 400 if invalid body provided", async () => {
+  const app = creatApp();
+
+  const postFlashcard = { question: "What's up?" };
+  const response = await request(app)
+    .post("/api/flashcards")
+    .send(postFlashcard);
+
+  deepEqual(response.status, 400);
+});

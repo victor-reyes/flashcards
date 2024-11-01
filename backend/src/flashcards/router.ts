@@ -15,9 +15,8 @@ export function createRouter(repository: Repository) {
   });
 
   router.post("/", async (req, res) => {
-    const { question, answer } = req.body;
     const id = v4();
-    const flashcard = Flashcard.parse({ id, question, answer });
+    const flashcard = Flashcard.parse({ id, ...req.body });
     await repository.save(flashcard);
     res.sendStatus(201);
   });

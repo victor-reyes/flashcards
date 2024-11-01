@@ -1,5 +1,5 @@
 import express from "express";
-import { createRouter } from "../flashcards";
+import { createRepository, createRouter } from "../flashcards";
 
 export function creatApp() {
   const app = express();
@@ -8,7 +8,8 @@ export function creatApp() {
     res.sendStatus(200);
   });
 
-  const flashcardsRouter = createRouter();
+  const flashcardsRepository = createRepository()
+  const flashcardsRouter = createRouter(flashcardsRepository);
   app.use("/api/flashcards", flashcardsRouter);
   return app;
 }

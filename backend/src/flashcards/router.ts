@@ -1,10 +1,14 @@
 import { Router } from "express";
 
-export function createRouter() {
+export type Repository = {
+  getAll: () => Promise<Flashcard[]>;
+};
+
+export function createRouter(repository: Repository) {
   const router = Router();
 
-  router.get("/", (req, res) => {
-    res.json([]);
+  router.get("/", async (req, res) => {
+    res.json(await repository.getAll());
   });
 
   return router;

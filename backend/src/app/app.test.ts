@@ -55,3 +55,16 @@ test("POST api/flashcards returns 400 if invalid body provided", async () => {
 
   deepEqual(response.status, 400);
 });
+test("DELETE api/flashcards/:id removes a flashcard and returns 204", async () => {
+  const flashcardToDelete = { ...TEST_DB[0] };
+  const response = await request(app).delete(
+    `/api/flashcards${flashcardToDelete.id}`
+  );
+
+  const flashcards = (await request(app).get("/api/flashcards")).body;
+  flashcards.includes(flashcardToDelete);
+
+  deepEqual(response.status, 204);
+  deepEqual(flashcards.length, 1);
+  deepEqual(flashcards.includes(flashcardToDelete), false);
+});

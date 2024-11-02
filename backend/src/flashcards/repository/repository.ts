@@ -17,6 +17,15 @@ export function createRepository(db: Array<Flashcard>): Repository {
       flashcards.push(flashcard);
     },
 
+    async patch(id, patchedFlashcard) {
+      const index = flashcards.findIndex((flashcard) => flashcard.id === id);
+      if (index !== -1) {
+        flashcards[index] = { ...flashcards[index], ...patchedFlashcard };
+        return true;
+      }
+      return false;
+    },
+
     async deleteBy(id: string) {
       const index = flashcards.findIndex((flashcard) => flashcard.id === id);
       if (index !== -1) {

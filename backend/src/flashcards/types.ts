@@ -10,11 +10,7 @@ export const Flashcard = z
 
 export type Flashcard = z.infer<typeof Flashcard>;
 
-export const PatchedFlashcard = z
-  .object({
-    question: z.string().min(1).optional(),
-    answer: z.string().min(1).optional(),
-  })
-  .strict();
+export const PatchedFlashcard = Flashcard.omit({ id: true })
+  .partial();
 
 export type PatchedFlashcard = z.infer<typeof PatchedFlashcard>;

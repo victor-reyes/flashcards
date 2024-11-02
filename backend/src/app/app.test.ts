@@ -62,7 +62,7 @@ test("POST api/flashcards adds a flashcard", async () => {
     .send(postFlashcard);
 
   const flashcards = (await request(app).get("/api/flashcards")).body;
-  const flashcard = flashcards[1];
+  const flashcard = flashcards.slice(-1)[0];
 
   deepEqual(response.status, 201);
   deepEqual(flashcards.length, 2);

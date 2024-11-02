@@ -21,13 +21,13 @@ const TEST_USER = {
   username: "Zombie",
 };
 const TEST_DB = [{ ...TEST_FLASHCARD }];
-const USER_DB = new Set([TEST_USER]);
+const USER_DB = [{ ...TEST_USER }];
 
 beforeEach(async () => {
   const flashcardRepository = createFlashcardRepository([...TEST_DB]);
   const flashcardRouter = createFlashcardRouter(flashcardRepository);
 
-  const userRepository = createUserRepository(USER_DB);
+  const userRepository = createUserRepository([...USER_DB]);
   const userRouter = createUserRouter(userRepository);
 
   app = creatApp(flashcardRouter, userRouter);
@@ -108,7 +108,11 @@ test("PATCH api/flashcards/:id updates a flashcard and returns 204", async () =>
 });
 
 test("POST /api/users/register returns 201", async () => {
-  const userToRegister = TEST_USER;
+  const userToRegister = {
+    email: "test@test.com",
+    password: "f;ajfon:#R:J@R3",
+    username: "testish",
+  };
 
   const responce = await request(app)
     .post("/api/users/register")
@@ -117,13 +121,13 @@ test("POST /api/users/register returns 201", async () => {
   deepEqual(responce.status, 201);
 });
 
-test("POST /api/users/login returns 201", async () => {
-  const userToRegister = TEST_USER;
+test("POST /api/users/login returns 200 and access token", async () => {
+  const userToLogin = TEST_USER;
 
   const responce = await request(app)
     .post("/api/users/login")
-    .send(userToRegister);
+    .send(userToLogin);
 
-  deepEqual(responce.status, 201);
-  match(responce.body.accesToken, /\w+/g);
+  deepEqual(responce.status, 200);
+  match(responce.body.accessToken, /\w+/g);
 });

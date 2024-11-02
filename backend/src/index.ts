@@ -5,7 +5,7 @@ import { createUserRepository, createUserRouter } from "./users";
 const flashcardRepository = createFlashcardRepository([]);
 const flashcardRouter = createFlashcardRouter(flashcardRepository);
 
-const userRepository = createUserRepository(new Set());
+const userRepository = createUserRepository([]);
 const userRouter = createUserRouter(userRepository);
 
 export const app = creatApp(flashcardRouter, userRouter);

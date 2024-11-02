@@ -12,5 +12,14 @@ export function createRepository(db: Array<Flashcard>): Repository {
     async save(flashcard: Flashcard) {
       flashcards.push(flashcard);
     },
+
+    async deleteBy(id: string) {
+      const index = flashcards.findIndex((flashcard) => flashcard.id === id);
+      if (index !== -1) {
+        flashcards.splice(index, 1);
+        return true;
+      }
+      return false;
+    },
   };
 }

@@ -9,6 +9,10 @@ export function createRepository(db: Array<Flashcard>): Repository {
       return flashcards;
     },
 
+    async getBy(id: string) {
+      return flashcards.find((flashcard) => flashcard.id === id);
+    },
+
     async save(flashcard: Flashcard) {
       flashcards.push(flashcard);
     },

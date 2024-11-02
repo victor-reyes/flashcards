@@ -1,7 +1,7 @@
 import { Repository } from "../router";
 import { Flashcard } from "../types";
 
-export function createRepository(db: Array<Flashcard>): Repository {
+export function createFlashcardRepository(db: Flashcard[]): Repository {
   const flashcards = db;
 
   return {

@@ -1,14 +1,14 @@
 import { creatApp } from "./app";
-import { createRepository, createRouter, Flashcard } from "./flashcards";
+import { createFlashcardRepository, createFlashcardRouter } from "./flashcards";
 import { createUserRepository, createUserRouter } from "./users";
 
-const flashcardsRepository = createRepository(new Array<Flashcard>());
-const flashcardsRouter = createRouter(flashcardsRepository);
+const flashcardRepository = createFlashcardRepository([]);
+const flashcardRouter = createFlashcardRouter(flashcardRepository);
 
 const userRepository = createUserRepository(new Set());
 const userRouter = createUserRouter(userRepository);
 
-export const app = creatApp(flashcardsRouter, userRouter);
+export const app = creatApp(flashcardRouter, userRouter);
 
 const port = 4444;
 app.listen(port, () => {

@@ -4,7 +4,10 @@ import request from "supertest";
 import { creatApp } from ".";
 import { App } from "supertest/types";
 import { createUserRepository, createUserRouter } from "../users";
-import { createRepository, createRouter } from "../flashcards";
+import {
+  createFlashcardRepository,
+  createFlashcardRouter,
+} from "../flashcards";
 
 let app: App;
 const TEST_FLASHCARD = {
@@ -21,13 +24,13 @@ const TEST_DB = [{ ...TEST_FLASHCARD }];
 const USER_DB = new Set([TEST_USER]);
 
 beforeEach(async () => {
-  const flashcardsRepository = createRepository([...TEST_DB]);
-  const flashcardsRouter = createRouter(flashcardsRepository);
+  const flashcardRepository = createFlashcardRepository([...TEST_DB]);
+  const flashcardRouter = createFlashcardRouter(flashcardRepository);
 
   const userRepository = createUserRepository(USER_DB);
   const userRouter = createUserRouter(userRepository);
 
-  app = creatApp(flashcardsRouter, userRouter);
+  app = creatApp(flashcardRouter, userRouter);
 });
 
 test("App is up and running", async () => {

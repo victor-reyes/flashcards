@@ -10,7 +10,7 @@ export type Repository = {
   deleteBy: (id: string) => Promise<boolean>;
 };
 
-export function createRouter(repository: Repository) {
+export function createFlashcardRouter(repository: Repository) {
   const router = Router();
 
   router.get("/", async (req, res) => {

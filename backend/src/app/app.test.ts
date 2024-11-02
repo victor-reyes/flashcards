@@ -1,8 +1,8 @@
 import test, { beforeEach } from "node:test";
-import { deepEqual } from "node:assert/strict";
+import { deepEqual, match } from "node:assert/strict";
 import request from "supertest";
-import { creatApp } from ".";
 import { App } from "supertest/types";
+import { creatApp } from ".";
 import { createUserRepository, createUserRouter } from "../users";
 import {
   createFlashcardRepository,
@@ -115,4 +115,15 @@ test("POST /api/users/register returns 201", async () => {
     .send(userToRegister);
 
   deepEqual(responce.status, 201);
+});
+
+test("POST /api/users/login returns 201", async () => {
+  const userToRegister = TEST_USER;
+
+  const responce = await request(app)
+    .post("/api/users/login")
+    .send(userToRegister);
+
+  deepEqual(responce.status, 201);
+  match(responce.body.accesToken, /\w+/g);
 });

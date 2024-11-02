@@ -1,6 +1,9 @@
 import { creatApp } from "./app";
+import { createRepository, createRouter, Flashcard } from "./flashcards";
 
-export const app = creatApp();
+const flashcardsRepository = createRepository(new Array<Flashcard>);
+const flashcardsRouter = createRouter(flashcardsRepository);
+export const app = creatApp(flashcardsRouter);
 
 const port = 4444;
 app.listen(port, () => {

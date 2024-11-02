@@ -1,8 +1,7 @@
-import express from "express";
-import { createRepository, createRouter } from "../flashcards";
+import express, { Router } from "express";
 import { createErrorRequestHandler } from "../error-validation-handler";
 
-export function creatApp() {
+export function creatApp(flashcardsRouter: Router) {
   const app = express();
 
   app.use(express.json());
@@ -11,8 +10,6 @@ export function creatApp() {
     res.sendStatus(200);
   });
 
-  const flashcardsRepository = createRepository();
-  const flashcardsRouter = createRouter(flashcardsRepository);
   app.use("/api/flashcards", flashcardsRouter);
 
   const errorRequestHanlder = createErrorRequestHandler();

@@ -1,18 +1,25 @@
-import test from "node:test";
+import test, { beforeEach } from "node:test";
 import { deepEqual } from "node:assert/strict";
 import request from "supertest";
 import { creatApp } from ".";
-import { Flashcard } from "../flashcards";
+import { createRepository, createRouter, Flashcard } from "../flashcards";
+
+function setUpApp(db: Array<Flashcard>) {
+  const flashcardsRepository = createRepository(db);
+  const flashcardsRouter = createRouter(flashcardsRepository);
+  const app = creatApp(flashcardsRouter);
+  return app;
+}
 
 test("App is up and running", async () => {
-  const app = creatApp();
+  const app = setUpApp([]);
   const response = await request(app).get("/");
 
   deepEqual(response.status, 200);
 });
 
 test("GET api/flashcards returns empty array of flashcards", async () => {
-  const app = creatApp();
+  const app = setUpApp([]);
   const response = await request(app).get("/api/flashcards");
 
   deepEqual(response.status, 200);
@@ -20,7 +27,7 @@ test("GET api/flashcards returns empty array of flashcards", async () => {
 });
 
 test("POST api/flashcards adds a flashcard", async () => {
-  const app = creatApp();
+  const app = setUpApp([]);
 
   const postFlashcard = { question: "What's up?", answer: "I'm fine!" };
   const response = await request(app)
@@ -37,7 +44,7 @@ test("POST api/flashcards adds a flashcard", async () => {
 });
 
 test("POST api/flashcards returns 400 if invalid body provided", async () => {
-  const app = creatApp();
+  const app = setUpApp([]);
 
   const postFlashcard = { question: "What's up?" };
   const response = await request(app)

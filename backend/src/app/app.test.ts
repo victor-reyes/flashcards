@@ -92,3 +92,17 @@ test("PATCH api/flashcards/:id updates a flashcard and returns 204", async () =>
   deepEqual(response.status, 204);
   deepEqual(flashcard.answer, answer);
 });
+
+test("POST /api/users/register returns 201", async () => {
+  const userToRegister = {
+    email: "zombie@zombiland.zmb",
+    password: "eatbrains",
+    username: "Zombie",
+  };
+
+  const responce = await request(app)
+    .post("/api/users/register")
+    .send(userToRegister);
+
+  deepEqual(responce.status, 201);
+});

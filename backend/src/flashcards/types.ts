@@ -9,3 +9,12 @@ export const Flashcard = z
   .strict();
 
 export type Flashcard = z.infer<typeof Flashcard>;
+
+export const PatchedFlashcard = z
+  .object({
+    question: z.string().min(1).optional(),
+    answer: z.string().min(1).optional(),
+  })
+  .strict();
+
+export type PatchedFlashcard = z.infer<typeof PatchedFlashcard>;

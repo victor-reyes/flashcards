@@ -82,7 +82,7 @@ test("DELETE api/flashcards/:id removes a flashcard and returns 204", async () =
 test("PATCH api/flashcards/:id updates a flashcard and returns 204", async () => {
   const answer = "Acapulco";
   const response = await request(app)
-    .delete(`/api/flashcards/${TEST_FLASHCARD.id}`)
+    .patch(`/api/flashcards/${TEST_FLASHCARD.id}`)
     .send({ answer });
 
   const flashcard = (

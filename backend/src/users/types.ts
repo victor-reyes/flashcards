@@ -8,4 +8,4 @@ export const User = z.object({
 
 export type User = z.infer<typeof User>;
 
-export type Db = Set<User>;
+export type Db = User[];

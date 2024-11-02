@@ -7,6 +7,10 @@ export function createUserRepository(db: Db): Repository {
       db.push(user);
       return true;
     },
+
+    async login(user: User) {
+      if (isUserAlreadyExist(db, user)) return "welcome";
+    },
   };
 }
 

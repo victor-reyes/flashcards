@@ -11,7 +11,13 @@ const TEST_FLASHCARD = {
   question: "Capital of Great Britain",
   answer: "London",
 };
+const TEST_USER = {
+  email: "zombie@zombiland.zmb",
+  password: "eatbrains",
+  username: "Zombie",
+};
 const TEST_DB = [{ ...TEST_FLASHCARD }];
+const USER_DB = new Set([TEST_USER]);
 
 beforeEach(async () => {
   const flashcardsRepository = createRepository([...TEST_DB]);
@@ -94,11 +100,7 @@ test("PATCH api/flashcards/:id updates a flashcard and returns 204", async () =>
 });
 
 test("POST /api/users/register returns 201", async () => {
-  const userToRegister = {
-    email: "zombie@zombiland.zmb",
-    password: "eatbrains",
-    username: "Zombie",
-  };
+  const userToRegister = TEST_USER;
 
   const responce = await request(app)
     .post("/api/users/register")

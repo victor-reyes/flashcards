@@ -78,3 +78,17 @@ test("DELETE api/flashcards/:id removes a flashcard and returns 204", async () =
   deepEqual(flashcards.length, 0);
   deepEqual(flashcards.includes(flashcardToDelete), false);
 });
+
+test("PATCH api/flashcards/:id updates a flashcard and returns 204", async () => {
+  const answer = "Acapulco";
+  const response = await request(app)
+    .delete(`/api/flashcards/${TEST_FLASHCARD.id}`)
+    .send({ answer });
+
+  const flashcard = (
+    await request(app).get(`/api/flashcards/${TEST_FLASHCARD.id}`)
+  ).body;
+
+  deepEqual(response.status, 204);
+  deepEqual(flashcard.answer, answer);
+});

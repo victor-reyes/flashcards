@@ -32,6 +32,15 @@ test("GET api/flashcards returns default array of flashcards", async () => {
   deepEqual(response.body, TEST_DB);
 });
 
+test("GET api/flashcards/:id returns flaschard with that id", async () => {
+  const response = await request(app).get(
+    `/api/flashcards/${TEST_FLASHCARD.id}`
+  );
+
+  deepEqual(response.status, 200);
+  deepEqual(response.body, TEST_FLASHCARD);
+});
+
 test("POST api/flashcards adds a flashcard", async () => {
   const postFlashcard = { question: "What's up?", answer: "I'm fine!" };
   const response = await request(app)
@@ -55,6 +64,7 @@ test("POST api/flashcards returns 400 if invalid body provided", async () => {
 
   deepEqual(response.status, 400);
 });
+
 test("DELETE api/flashcards/:id removes a flashcard and returns 204", async () => {
   const flashcardToDelete = { ...TEST_DB[0] };
   const response = await request(app).delete(

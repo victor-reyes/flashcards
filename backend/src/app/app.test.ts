@@ -2,8 +2,9 @@ import test, { beforeEach } from "node:test";
 import { deepEqual } from "node:assert/strict";
 import request from "supertest";
 import { creatApp } from ".";
-import { createRepository, createRouter } from "../flashcards";
 import { App } from "supertest/types";
+import { createUserRepository, createUserRouter } from "../users";
+import { createRepository, createRouter } from "../flashcards";
 
 let app: App;
 const TEST_FLASHCARD = {
@@ -22,7 +23,11 @@ const USER_DB = new Set([TEST_USER]);
 beforeEach(async () => {
   const flashcardsRepository = createRepository([...TEST_DB]);
   const flashcardsRouter = createRouter(flashcardsRepository);
-  app = creatApp(flashcardsRouter);
+
+  const userRepository = createUserRepository(USER_DB);
+  const userRouter = createUserRouter(userRepository);
+
+  app = creatApp(flashcardsRouter, userRouter);
 });
 
 test("App is up and running", async () => {

@@ -1,8 +1,7 @@
-import { deepEqual, throws } from "node:assert/strict";
+import { deepEqual, throws, doesNotThrow } from "node:assert/strict";
 import test, { describe } from "node:test";
 import { validateNewUser, parse } from "./service";
 import { ZodError } from "zod";
-import assert, { doesNotThrow } from "node:assert";
 
 const existingUser = {
   email: "email@email.com",
@@ -18,18 +17,18 @@ const nonExistingUser = {
 const users = [existingUser];
 
 describe("Helper functions in User Service", async () => {
-  test("should return true when user exist and false otherwise", async () => {
+  test("should throw if user's email is registered or if username is taken", async () => {
     const userWithRegistredEmail = {
       ...nonExistingUser,
-      username: existingUser.email,
+      email: existingUser.email,
     };
     const userWithTakenUsername = {
       ...nonExistingUser,
       username: existingUser.username,
     };
 
-    doesNotThrow(() => validateNewUser(users, userWithRegistredEmail));
-    throws(() => validateNewUser(users, nonExistingUser), {
+    doesNotThrow(() => validateNewUser(users, nonExistingUser));
+    throws(() => validateNewUser(users, userWithRegistredEmail), {
       name: "ValidationError",
       message: "User with such email is already registered",
     });

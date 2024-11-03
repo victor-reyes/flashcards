@@ -23,13 +23,19 @@ export function createUserService(repository: Repository): Service {
 
       const users = await repository.getAll();
 
-      if (validateNewUser(users, user)) return user.username;
+      if (authenticateUser(users, user)) return user.username;
     },
   };
 }
 
 export function parse(user: User) {
   return User.parse(user);
+}
+
+function authenticateUser(users: User[], user: User) {
+  return users.some(
+    ({ email, password }) => user.email === email && user.password === password
+  );
 }
 
 export function validateNewUser(users: User[], user: User) {

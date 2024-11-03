@@ -13,7 +13,7 @@ export function createUserService(repository: Repository): Service {
       const users = await repository.getAll();
 
       if (doesUserAlreadyExist(users, user)) return false;
-      repository.save(user);
+      await repository.save(user);
       return true;
     },
 

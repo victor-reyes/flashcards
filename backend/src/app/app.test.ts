@@ -138,7 +138,7 @@ test("POST /api/users/register registering same user twice returns 400 BAD REQUE
     .post("/api/users/register")
     .send(userToRegister);
 
-  deepEqual(responce.status, 400);
+  deepEqual(responce.status, 409);
   deepEqual(responce.text, "User with such email is already registered")
 });
 

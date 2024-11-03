@@ -5,8 +5,8 @@ export function createUserRepository(db: Db): Repository {
     async getAll() {
       return [...db];
     },
-    async save() {
-      db.push();
+    async save(user) {
+      db.push(user);
     },
   };
 }

@@ -1,5 +1,9 @@
 import { creatApp } from "./app";
-import { createFlashcardRepository, createFlashcardRouter } from "./flashcards";
+import {
+  createFlashcardRouter,
+  createFlashcardService,
+  createFlashcardRepository,
+} from "./flashcards";
 import {
   createUserRepository,
   createUserRouter,
@@ -7,7 +11,8 @@ import {
 } from "./users";
 
 const flashcardRepository = createFlashcardRepository([]);
-const flashcardRouter = createFlashcardRouter(flashcardRepository);
+const flashcardService = createFlashcardService(flashcardRepository);
+const flashcardRouter = createFlashcardRouter(flashcardService);
 
 const userRepository = createUserRepository([]);
 const userService = createUserService(userRepository);

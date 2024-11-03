@@ -1,1 +1,1 @@
-export * from "./error-validation-hanlder";
+export * from "./error-validation-handler";

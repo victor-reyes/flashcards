@@ -8,10 +8,8 @@ import {
   createUserRouter,
   createUserService,
 } from "../users";
-import {
-  createFlashcardRepository,
-  createFlashcardRouter,
-} from "../flashcards";
+import { createFlashcardRouter, createFlashcardService } from "../flashcards";
+import { createFlashcardRepository } from "../flashcards/repository";
 
 let app: App;
 const TEST_FLASHCARD = {
@@ -29,7 +27,8 @@ const USER_DB = [{ ...TEST_USER }];
 
 beforeEach(async () => {
   const flashcardRepository = createFlashcardRepository([...TEST_DB]);
-  const flashcardRouter = createFlashcardRouter(flashcardRepository);
+  const flashcardService = createFlashcardService(flashcardRepository);
+  const flashcardRouter = createFlashcardRouter(flashcardService);
 
   const userRepository = createUserRepository([...USER_DB]);
   const userService = createUserService(userRepository);

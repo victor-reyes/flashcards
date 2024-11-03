@@ -27,10 +27,10 @@ export function createUserService(repository: Repository): Service {
   };
 }
 
-function parse(user: User) {
+export function parse(user: User) {
   return User.parse(user);
 }
-function doesUserAlreadyExist(users: User[], user: User): boolean {
+export function doesUserAlreadyExist(users: User[], user: User): boolean {
   return (
     users.find(
       ({ email, username }) =>

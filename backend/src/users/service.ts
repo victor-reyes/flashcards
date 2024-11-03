@@ -12,7 +12,8 @@ export function createUserService(repository: Repository): Service {
 
       const users = await repository.getAll();
 
-      if (validateNewUser(users, user)) return false;
+      validateNewUser(users, user);
+
       await repository.save(user);
       return true;
     },
@@ -32,7 +33,17 @@ export function parse(user: User) {
 }
 
 export function validateNewUser(users: User[], user: User) {
-  return isUserAlreadyRegistred(users, user) || isUserNameTaken(users, user);
+  if (isUserAlreadyRegistred(users, user))
+    throw {
+      name: "ValidationError",
+      message: "User with such email is already registered",
+    };
+
+  if (isUserNameTaken(users, user))
+    throw {
+      name: "ValidationError",
+      message: `"${user.username}" is taken by another user`,
+    };
 }
 
 function isUserAlreadyRegistred(users: User[], user: User) {

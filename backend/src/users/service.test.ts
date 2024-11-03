@@ -1,25 +1,37 @@
-import { deepEqual } from "node:assert/strict";
+import { deepEqual, throws } from "node:assert/strict";
 import test, { describe } from "node:test";
-import { doesUserAlreadyExist } from "./service";
+import { doesUserAlreadyExist, parse } from "./service";
+import { ZodError } from "zod";
+
+const existingUser = {
+  email: "email@email.com",
+  password: "password",
+  username: "username",
+};
+const nonExistingUser = {
+  email: "fake@email.com",
+  password: "password",
+  username: "fake",
+};
+const users = [existingUser];
 
 describe("Helper functions in User Service", async () => {
   test("should return true when user exist and false otherwise", async () => {
-    const existingUser = {
-      email: "email@email.com",
-      password: "password",
-      username: "username",
-    };
-    const nonExistingUser = {
-      email: "fake@email.com",
-      password: "password",
-      username: "fake",
-    };
-    const users = [existingUser];
-
     const exist = doesUserAlreadyExist(users, existingUser);
     const notExist = doesUserAlreadyExist(users, nonExistingUser);
 
     deepEqual(exist, true);
     deepEqual(notExist, false);
+  });
+
+  test("should parse valid User successfully and throw otherwise", async () => {
+    const goodUser = existingUser;
+
+    const { email, ...userWithoutEmail } = goodUser;
+    const userWithShortPassword = { ...goodUser, password: "short" };
+
+    deepEqual(parse(goodUser), goodUser);
+    throws(() => parse(userWithoutEmail as any), ZodError);
+    throws(() => parse(userWithShortPassword), ZodError);
   });
 });

@@ -1,12 +1,17 @@
 import { creatApp } from "./app";
 import { createFlashcardRepository, createFlashcardRouter } from "./flashcards";
-import { createUserRepository, createUserRouter } from "./users";
+import {
+  createUserRepository,
+  createUserRouter,
+  createUserService,
+} from "./users";
 
 const flashcardRepository = createFlashcardRepository([]);
 const flashcardRouter = createFlashcardRouter(flashcardRepository);
 
 const userRepository = createUserRepository([]);
-const userRouter = createUserRouter(userRepository);
+const userService = createUserService(userRepository);
+const userRouter = createUserRouter(userService);
 
 export const app = creatApp(flashcardRouter, userRouter);
 

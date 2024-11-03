@@ -1,24 +1,12 @@
-import { Db, Repository, User } from ".";
+import { Db, Repository } from ".";
 
 export function createUserRepository(db: Db): Repository {
   return {
-    async register(user: User): Promise<boolean> {
-      if (doesUserAlreadyExist(db, user)) return false;
-      db.push(user);
-      return true;
+    async getAll() {
+      return [...db];
     },
-
-    async login(user: User) {
-      if (doesUserAlreadyExist(db, user)) return "welcome";
+    async save() {
+      db.push();
     },
   };
-}
-
-function doesUserAlreadyExist(users: User[], newUser: User): boolean {
-  return (
-    users.find(
-      (user) =>
-        user.email === newUser.email || user.username === newUser.password
-    ) !== undefined
-  );
 }

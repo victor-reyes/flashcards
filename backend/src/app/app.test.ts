@@ -125,6 +125,23 @@ test("POST /api/users/register returns 201", async () => {
   deepEqual(responce.status, 201);
 });
 
+test("POST /api/users/register registering same user twice returns 400 BAD REQUEST", async () => {
+  const userToRegister = {
+    email: "test@test.com",
+    password: "password",
+    username: "testish",
+  };
+
+  await request(app).post("/api/users/register").send(userToRegister);
+
+  const responce = await request(app)
+    .post("/api/users/register")
+    .send(userToRegister);
+
+  deepEqual(responce.status, 400);
+  deepEqual(responce.text, "User with such email is already registered")
+});
+
 test("POST /api/users/login returns 200 and access token", async () => {
   const userToLogin = TEST_USER;
 

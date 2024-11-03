@@ -10,7 +10,7 @@ export const Flashcard = z
 
 export type Flashcard = z.infer<typeof Flashcard>;
 
-export const PatchedFlashcard = Flashcard.omit({ id: true })
+export const Update = Flashcard.omit({ id: true })
   .partial()
   .refine(
     ({ question, answer }) =>
@@ -18,4 +18,4 @@ export const PatchedFlashcard = Flashcard.omit({ id: true })
     { message: "At least one of 'question' or 'answer' must be provided." }
   );
 
-export type PatchedFlashcard = z.infer<typeof PatchedFlashcard>;
+export type Update = z.infer<typeof Update>;

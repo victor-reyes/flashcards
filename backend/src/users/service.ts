@@ -31,11 +31,14 @@ export function parse(user: User) {
   return User.parse(user);
 }
 
-export function validateNewUser(users: User[], user: User): boolean {
-  return (
-    users.find(
-      ({ email, username }) =>
-        email === user.email || username === user.username
-    ) !== undefined
-  );
+export function validateNewUser(users: User[], user: User) {
+  return isUserAlreadyRegistred(users, user) || isUserNameTaken(users, user);
+}
+
+function isUserAlreadyRegistred(users: User[], user: User) {
+  return users.some(({ email }) => email === user.email);
+}
+
+function isUserNameTaken(users: User[], user: User) {
+  return users.some(({ username }) => username === user.username);
 }

@@ -39,14 +39,29 @@ describe("Helper functions in User Service", async () => {
     });
   });
 
-  test("should parse valid User successfully and throw otherwise", async () => {
-    const goodUser = existingUser;
+  test("should successfully parse a valid User object", async () => {
+    const validUser = existingUser;
 
-    const { email, ...userWithoutEmail } = goodUser;
-    const userWithShortPassword = { ...goodUser, password: "short" };
+    const result = parse(validUser);
 
-    deepEqual(parse(goodUser), goodUser);
+    deepEqual(result, validUser);
+  });
+
+  test("should throw an error when parsing an empty User object", async () => {
+    const emptyUser = {};
+
+    throws(() => parse(emptyUser as any), ZodError);
+  });
+
+  test("should throw an error when parsing a User object without an email", async () => {
+    const { email, ...userWithoutEmail } = existingUser;
+
     throws(() => parse(userWithoutEmail as any), ZodError);
+  });
+
+  test("should throw an error when parsing a User object with a too short password", async () => {
+    const userWithShortPassword = { ...existingUser, password: "short" };
+
     throws(() => parse(userWithShortPassword), ZodError);
   });
 });

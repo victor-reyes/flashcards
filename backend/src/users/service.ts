@@ -12,7 +12,7 @@ export function createUserService(repository: Repository): Service {
 
       const users = await repository.getAll();
 
-      if (doesUserAlreadyExist(users, user)) return false;
+      if (validateNewUser(users, user)) return false;
       await repository.save(user);
       return true;
     },
@@ -22,7 +22,7 @@ export function createUserService(repository: Repository): Service {
 
       const users = await repository.getAll();
 
-      if (doesUserAlreadyExist(users, user)) return user.username;
+      if (validateNewUser(users, user)) return user.username;
     },
   };
 }
@@ -30,7 +30,8 @@ export function createUserService(repository: Repository): Service {
 export function parse(user: User) {
   return User.parse(user);
 }
-export function doesUserAlreadyExist(users: User[], user: User): boolean {
+
+export function validateNewUser(users: User[], user: User): boolean {
   return (
     users.find(
       ({ email, username }) =>

@@ -1,6 +1,6 @@
 import { deepEqual, throws } from "node:assert/strict";
 import test, { describe } from "node:test";
-import { doesUserAlreadyExist, parse } from "./service";
+import { validateNewUser, parse } from "./service";
 import { ZodError } from "zod";
 
 const existingUser = {
@@ -17,8 +17,8 @@ const users = [existingUser];
 
 describe("Helper functions in User Service", async () => {
   test("should return true when user exist and false otherwise", async () => {
-    const exist = doesUserAlreadyExist(users, existingUser);
-    const notExist = doesUserAlreadyExist(users, nonExistingUser);
+    const exist = validateNewUser(users, existingUser);
+    const notExist = validateNewUser(users, nonExistingUser);
 
     deepEqual(exist, true);
     deepEqual(notExist, false);

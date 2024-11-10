@@ -41,16 +41,10 @@ function authenticateUser(users: User[], user: User) {
 
 export function ensureUserIsUnique(users: User[], user: User) {
   if (isEmailAlreadyRegistered(users, user))
-    throw {
-      name: "ValidationError",
-      message: "User with such email is already registered",
-    };
+    throw new ConflictError("User with such email is already registered");
 
   if (isUsernameAlreadyTaken(users, user))
-    throw {
-      name: "ValidationError",
-      message: `"${user.username}" is taken by another user`,
-    };
+    throw new ConflictError(`"${user.username}" is taken by another user`);
 }
 
 function isEmailAlreadyRegistered(users: User[], user: User) {
@@ -59,4 +53,10 @@ function isEmailAlreadyRegistered(users: User[], user: User) {
 
 function isUsernameAlreadyTaken(users: User[], user: User) {
   return users.some(({ username }) => username === user.username);
+}
+
+export class ConflictError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
 }

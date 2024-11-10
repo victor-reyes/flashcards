@@ -13,7 +13,7 @@ export function createUserService(repository: Repository): Service {
 
       const users = await repository.getAll();
 
-      validateNewUser(users, user);
+      ensureUserIsUnique(users, user);
 
       await repository.save(user);
       return true;
@@ -39,24 +39,24 @@ function authenticateUser(users: User[], user: User) {
   );
 }
 
-export function validateNewUser(users: User[], user: User) {
-  if (isUserAlreadyRegistred(users, user))
+export function ensureUserIsUnique(users: User[], user: User) {
+  if (isEmailAlreadyRegistered(users, user))
     throw {
       name: "ValidationError",
       message: "User with such email is already registered",
     };
 
-  if (isUserNameTaken(users, user))
+  if (isUsernameAlreadyTaken(users, user))
     throw {
       name: "ValidationError",
       message: `"${user.username}" is taken by another user`,
     };
 }
 
-function isUserAlreadyRegistred(users: User[], user: User) {
+function isEmailAlreadyRegistered(users: User[], user: User) {
   return users.some(({ email }) => email === user.email);
 }
 
-function isUserNameTaken(users: User[], user: User) {
+function isUsernameAlreadyTaken(users: User[], user: User) {
   return users.some(({ username }) => username === user.username);
 }

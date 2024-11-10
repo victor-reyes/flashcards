@@ -1,6 +1,6 @@
 import { deepEqual, throws, doesNotThrow } from "node:assert/strict";
 import test, { describe } from "node:test";
-import { validateNewUser, parse } from "./service";
+import { ensureUserIsUnique, parse } from "./service";
 import { ZodError } from "zod";
 
 const existingUser = {
@@ -18,7 +18,7 @@ const users = [existingUser];
 
 describe("Helper functions in User Service", async () => {
   test("should not throw when a new user with a unique email and username registers", async () => {
-    doesNotThrow(() => validateNewUser(users, newUser));
+    doesNotThrow(() => ensureUserIsUnique(users, newUser));
   });
 
   test("should throw when the user's email is already registered", async () => {
@@ -26,7 +26,7 @@ describe("Helper functions in User Service", async () => {
       ...newUser,
       email: existingUser.email,
     };
-    throws(() => validateNewUser(users, userWithDuplicateEmail), {
+    throws(() => ensureUserIsUnique(users, userWithDuplicateEmail), {
       name: "ValidationError",
       message: "User with such email is already registered",
     });
@@ -38,7 +38,7 @@ describe("Helper functions in User Service", async () => {
       username: existingUser.username,
     };
 
-    throws(() => validateNewUser(users, userWithDuplicateUsername), {
+    throws(() => ensureUserIsUnique(users, userWithDuplicateUsername), {
       name: "ValidationError",
       message: `"${userWithDuplicateUsername.username}" is taken by another user`,
     });

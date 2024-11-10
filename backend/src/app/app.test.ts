@@ -3,12 +3,8 @@ import { deepEqual, match } from "node:assert/strict";
 import request from "supertest";
 import { App } from "supertest/types";
 import { creatApp } from ".";
-import {
-  createUserRepository,
-  createUserRouter,
-  createUserService,
-} from "../features/users";
 import { createFlaschardsFeature } from "../features/flashcards";
+import { createUserFeature } from "../features/users";
 
 let app: App;
 const TEST_FLASHCARD = {
@@ -26,10 +22,7 @@ const USER_DB = [{ ...TEST_USER }];
 
 beforeEach(async () => {
   const { flashcardRouter } = createFlaschardsFeature([...TEST_DB]);
-
-  const userRepository = createUserRepository([...USER_DB]);
-  const userService = createUserService(userRepository);
-  const userRouter = createUserRouter(userService);
+  const { userRouter } = createUserFeature([...USER_DB]);
 
   app = creatApp(flashcardRouter, userRouter);
 });

@@ -1,4 +1,5 @@
-import { Db, Repository } from ".";
+import { Repository } from "./service";
+import { Db } from "./types";
 
 export function createUserRepository(db: Db): Repository {
   return {

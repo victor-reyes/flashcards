@@ -1,4 +1,5 @@
-import { Service, User } from ".";
+import { Service } from "./router";
+import { User } from "./types";
 
 export type Repository = {
   save: (user: User) => Promise<void>;

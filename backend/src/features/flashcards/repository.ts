@@ -1,5 +1,11 @@
-import { Repository } from "./service";
 import { Flashcard, Update } from "./types";
+
+export type Repository = {
+  getAll: () => Promise<Flashcard[]>;
+  create: (flaschard: Flashcard) => Promise<boolean>;
+  update: (index: number, update: Update) => Promise<void>;
+  delete: (index: number) => Promise<void>;
+};
 
 export function createFlashcardRepository(db: Flashcard[]): Repository {
   const flashcards = db;

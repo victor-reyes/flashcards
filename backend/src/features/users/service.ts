@@ -1,9 +1,9 @@
-import { Service } from "./router";
+import { Repository } from "./repository";
 import { User } from "./types";
 
-export type Repository = {
-  save: (user: User) => Promise<void>;
-  getAll: () => Promise<User[]>;
+export type Service = {
+  register: (user: User) => Promise<boolean>;
+  login: (user: User) => Promise<string | undefined>;
 };
 
 export function createUserService(repository: Repository): Service {

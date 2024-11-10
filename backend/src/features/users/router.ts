@@ -1,10 +1,5 @@
 import { Router } from "express";
-import { User } from "./types";
-
-export type Service = {
-  register: (user: User) => Promise<boolean>;
-  login: (user: User) => Promise<string | undefined>;
-};
+import { Service } from "./service";
 
 export function createUserRouter(service: Service) {
   const router = Router();

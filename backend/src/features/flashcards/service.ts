@@ -1,12 +1,13 @@
 import { v4 } from "uuid";
-import { Service } from "./router";
 import { Flashcard, Update } from "./types";
+import { Repository } from "./repository";
 
-export type Repository = {
+export type Service = {
   getAll: () => Promise<Flashcard[]>;
-  create: (flaschard: Flashcard) => Promise<boolean>;
-  update: (index: number, update: Update) => Promise<void>;
-  delete: (index: number) => Promise<void>;
+  getById: (id: string) => Promise<Flashcard | undefined>;
+  create: (flashcard: Flashcard) => Promise<boolean>;
+  update: (id: string, updatedFlashcard: Flashcard) => Promise<boolean>;
+  deleteById: (id: string) => Promise<boolean>;
 };
 
 export function createFlashcardService(repository: Repository): Service {

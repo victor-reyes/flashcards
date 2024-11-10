@@ -1,5 +1,9 @@
-import { Repository } from "./service";
-import { Db } from "./types";
+import { Db, User } from "./types";
+
+export type Repository = {
+  save: (user: User) => Promise<void>;
+  getAll: () => Promise<User[]>;
+};
 
 export function createUserRepository(db: Db): Repository {
   return {

@@ -1,13 +1,5 @@
 import { Router } from "express";
-import { Flashcard } from "./types";
-
-export type Service = {
-  getAll: () => Promise<Flashcard[]>;
-  getById: (id: string) => Promise<Flashcard | undefined>;
-  create: (flashcard: Flashcard) => Promise<boolean>;
-  update: (id: string, updatedFlashcard: Flashcard) => Promise<boolean>;
-  deleteById: (id: string) => Promise<boolean>;
-};
+import { Service } from "./service";
 
 export function createFlashcardRouter(service: Service) {
   const router = Router();

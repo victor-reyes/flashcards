@@ -17,21 +17,26 @@ const nonExistingUser = {
 const users = [existingUser];
 
 describe("Helper functions in User Service", async () => {
-  test("should throw if user's email is registered or if username is taken", async () => {
+  test("should not throw when a new user with a unique email and username registers", async () => {
+    doesNotThrow(() => validateNewUser(users, nonExistingUser));
+  });
+
+  test("should throw when the user's email is already registered", async () => {
     const userWithRegistredEmail = {
       ...nonExistingUser,
       email: existingUser.email,
     };
-    const userWithTakenUsername = {
-      ...nonExistingUser,
-      username: existingUser.username,
-    };
-
-    doesNotThrow(() => validateNewUser(users, nonExistingUser));
     throws(() => validateNewUser(users, userWithRegistredEmail), {
       name: "ValidationError",
       message: "User with such email is already registered",
     });
+  });
+
+  test("should throw when the user's username is already taken", async () => {
+    const userWithTakenUsername = {
+      ...nonExistingUser,
+      username: existingUser.username,
+    };
 
     throws(() => validateNewUser(users, userWithTakenUsername), {
       name: "ValidationError",

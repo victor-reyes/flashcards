@@ -1,5 +1,5 @@
 import test, { beforeEach } from "node:test";
-import { deepEqual, match } from "node:assert/strict";
+import { deepEqual, match, equal } from "node:assert/strict";
 import request from "supertest";
 import { App } from "supertest/types";
 import { creatApp } from ".";
@@ -30,13 +30,13 @@ beforeEach(async () => {
 test("App is up and running", async () => {
   const response = await request(app).get("/");
 
-  deepEqual(response.status, 200);
+  equal(response.status, 200);
 });
 
 test("GET api/flashcards returns default array of flashcards", async () => {
   const response = await request(app).get("/api/flashcards");
 
-  deepEqual(response.status, 200);
+  equal(response.status, 200);
   deepEqual(response.body, TEST_DB);
 });
 
@@ -45,7 +45,7 @@ test("GET api/flashcards/:id returns flaschard with that id", async () => {
     `/api/flashcards/${TEST_FLASHCARD.id}`,
   );
 
-  deepEqual(response.status, 200);
+  equal(response.status, 200);
   deepEqual(response.body, TEST_FLASHCARD);
 });
 
@@ -58,10 +58,10 @@ test("POST api/flashcards adds a flashcard", async () => {
   const flashcards = (await request(app).get("/api/flashcards")).body;
   const flashcard = flashcards.slice(-1)[0];
 
-  deepEqual(response.status, 201);
-  deepEqual(flashcards.length, 2);
-  deepEqual(flashcard.question, postFlashcard.question);
-  deepEqual(flashcard.answer, postFlashcard.answer);
+  equal(response.status, 201);
+  equal(flashcards.length, 2);
+  equal(flashcard.question, postFlashcard.question);
+  equal(flashcard.answer, postFlashcard.answer);
 });
 
 test("POST api/flashcards returns 400 if invalid body provided", async () => {
@@ -70,7 +70,7 @@ test("POST api/flashcards returns 400 if invalid body provided", async () => {
     .post("/api/flashcards")
     .send(postFlashcard);
 
-  deepEqual(response.status, 400);
+  equal(response.status, 400);
 });
 
 test("DELETE api/flashcards/:id removes a flashcard and returns 204", async () => {
@@ -82,9 +82,9 @@ test("DELETE api/flashcards/:id removes a flashcard and returns 204", async () =
   const flashcards = (await request(app).get("/api/flashcards")).body;
   flashcards.includes(flashcardToDelete);
 
-  deepEqual(response.status, 204);
-  deepEqual(flashcards.length, 0);
-  deepEqual(flashcards.includes(flashcardToDelete), false);
+  equal(response.status, 204);
+  equal(flashcards.length, 0);
+  equal(flashcards.includes(flashcardToDelete), false);
 });
 
 test("PATCH api/flashcards/:id updates a flashcard and returns 204", async () => {
@@ -97,8 +97,8 @@ test("PATCH api/flashcards/:id updates a flashcard and returns 204", async () =>
     await request(app).get(`/api/flashcards/${TEST_FLASHCARD.id}`)
   ).body;
 
-  deepEqual(response.status, 204);
-  deepEqual(flashcard.answer, answer);
+  equal(response.status, 204);
+  equal(flashcard.answer, answer);
 });
 
 test("POST /api/users/register returns 201", async () => {
@@ -112,7 +112,7 @@ test("POST /api/users/register returns 201", async () => {
     .post("/api/users/register")
     .send(userToRegister);
 
-  deepEqual(response.status, 201);
+  equal(response.status, 201);
 });
 
 test("POST /api/users/register registering same user twice returns 400 BAD REQUEST", async () => {
@@ -128,8 +128,8 @@ test("POST /api/users/register registering same user twice returns 400 BAD REQUE
     .post("/api/users/register")
     .send(userToRegister);
 
-  deepEqual(response.status, 409);
-  deepEqual(response.text, "User with such email is already registered");
+  equal(response.status, 409);
+  equal(response.text, "User with such email is already registered");
 });
 
 test("POST /api/users/login returns 200 and access token", async () => {
@@ -139,6 +139,6 @@ test("POST /api/users/login returns 200 and access token", async () => {
     .post("/api/users/login")
     .send(userToLogin);
 
-  deepEqual(response.status, 200);
+  equal(response.status, 200);
   match(response.body.accessToken, /\w+/g);
 });

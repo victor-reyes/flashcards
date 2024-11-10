@@ -11,7 +11,7 @@ export function creatApp(flashcardsRouter: Router, userRouter: Router) {
   });
 
   app.use("/api/flashcards", flashcardsRouter);
-  app.use("/api/users", userRouter)
+  app.use("/api/users", userRouter);
 
   const errorRequestHanlder = createErrorRequestHandler();
   app.use(errorRequestHanlder);

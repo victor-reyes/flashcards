@@ -15,7 +15,7 @@ export const Update = Flashcard.omit({ id: true })
   .refine(
     ({ question, answer }) =>
       ![question, answer].every((item) => item === undefined),
-    { message: "At least one of 'question' or 'answer' must be provided." }
+    { message: "At least one of 'question' or 'answer' must be provided." },
   );
 
 export type Update = z.infer<typeof Update>;

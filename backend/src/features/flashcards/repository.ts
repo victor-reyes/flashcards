@@ -1,7 +1,6 @@
 import { Repository } from "./service";
 import { Flashcard, Update } from "./types";
 
-
 export function createFlashcardRepository(db: Flashcard[]): Repository {
   const flashcards = db;
 

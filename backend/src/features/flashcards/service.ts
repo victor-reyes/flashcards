@@ -2,7 +2,6 @@ import { v4 } from "uuid";
 import { Service } from "./router";
 import { Flashcard, Update } from "./types";
 
-
 export type Repository = {
   getAll: () => Promise<Flashcard[]>;
   create: (flaschard: Flashcard) => Promise<boolean>;
@@ -18,7 +17,7 @@ export function createFlashcardService(repository: Repository): Service {
 
     async getById(id: string) {
       return (await repository.getAll()).find(
-        (flashcard) => flashcard.id === id
+        (flashcard) => flashcard.id === id,
       );
     },
 

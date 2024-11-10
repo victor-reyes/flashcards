@@ -34,7 +34,7 @@ export function parse(user: User) {
 
 function authenticateUser(users: User[], user: User) {
   return users.some(
-    ({ email, password }) => user.email === email && user.password === password
+    ({ email, password }) => user.email === email && user.password === password,
   );
 }
 

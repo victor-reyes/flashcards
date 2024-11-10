@@ -3,12 +3,12 @@ import {
   createFlashcardRouter,
   createFlashcardService,
   createFlashcardRepository,
-} from "./flashcards";
+} from "./features/flashcards";
 import {
   createUserRepository,
   createUserRouter,
   createUserService,
-} from "./users";
+} from "./features/users";
 
 const flashcardRepository = createFlashcardRepository([]);
 const flashcardService = createFlashcardService(flashcardRepository);

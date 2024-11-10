@@ -7,9 +7,9 @@ import {
   createUserRepository,
   createUserRouter,
   createUserService,
-} from "../users";
-import { createFlashcardRouter, createFlashcardService } from "../flashcards";
-import { createFlashcardRepository } from "../flashcards/repository";
+} from "../features/users";
+import { createFlashcardRouter, createFlashcardService } from "../features/flashcards";
+import { createFlashcardRepository } from "../features/flashcards/repository";
 
 let app: App;
 const TEST_FLASHCARD = {

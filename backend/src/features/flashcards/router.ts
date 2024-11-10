@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Flashcard } from ".";
+import { Flashcard } from "./types";
 
 export type Service = {
   getAll: () => Promise<Flashcard[]>;

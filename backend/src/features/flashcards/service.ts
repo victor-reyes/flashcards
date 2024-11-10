@@ -1,5 +1,7 @@
 import { v4 } from "uuid";
-import { Flashcard, Service, Update as Update } from ".";
+import { Service } from "./router";
+import { Flashcard, Update } from "./types";
+
 
 export type Repository = {
   getAll: () => Promise<Flashcard[]>;

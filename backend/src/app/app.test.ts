@@ -8,8 +8,7 @@ import {
   createUserRouter,
   createUserService,
 } from "../features/users";
-import { createFlashcardRouter, createFlashcardService } from "../features/flashcards";
-import { createFlashcardRepository } from "../features/flashcards/repository";
+import { createFlaschardsFeature } from "../features/flashcards";
 
 let app: App;
 const TEST_FLASHCARD = {
@@ -26,9 +25,7 @@ const TEST_DB = [{ ...TEST_FLASHCARD }];
 const USER_DB = [{ ...TEST_USER }];
 
 beforeEach(async () => {
-  const flashcardRepository = createFlashcardRepository([...TEST_DB]);
-  const flashcardService = createFlashcardService(flashcardRepository);
-  const flashcardRouter = createFlashcardRouter(flashcardService);
+  const { flashcardRouter } = createFlaschardsFeature([...TEST_DB]);
 
   const userRepository = createUserRepository([...USER_DB]);
   const userService = createUserService(userRepository);
@@ -52,7 +49,7 @@ test("GET api/flashcards returns default array of flashcards", async () => {
 
 test("GET api/flashcards/:id returns flaschard with that id", async () => {
   const response = await request(app).get(
-    `/api/flashcards/${TEST_FLASHCARD.id}`
+    `/api/flashcards/${TEST_FLASHCARD.id}`,
   );
 
   deepEqual(response.status, 200);
@@ -86,7 +83,7 @@ test("POST api/flashcards returns 400 if invalid body provided", async () => {
 test("DELETE api/flashcards/:id removes a flashcard and returns 204", async () => {
   const flashcardToDelete = { ...TEST_DB[0] };
   const response = await request(app).delete(
-    `/api/flashcards/${flashcardToDelete.id}`
+    `/api/flashcards/${flashcardToDelete.id}`,
   );
 
   const flashcards = (await request(app).get("/api/flashcards")).body;
@@ -139,7 +136,7 @@ test("POST /api/users/register registering same user twice returns 400 BAD REQUE
     .send(userToRegister);
 
   deepEqual(responce.status, 409);
-  deepEqual(responce.text, "User with such email is already registered")
+  deepEqual(responce.text, "User with such email is already registered");
 });
 
 test("POST /api/users/login returns 200 and access token", async () => {

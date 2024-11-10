@@ -64,7 +64,7 @@ test("POST api/flashcards adds a flashcard", async () => {
   equal(flashcard.answer, postFlashcard.answer);
 });
 
-test("POST api/flashcards returns 400 if invalid body provided", async () => {
+test("POST api/flashcards returns 400 Bad Request if invalid body provided", async () => {
   const postFlashcard = { question: "What's up?" };
   const response = await request(app)
     .post("/api/flashcards")
@@ -73,7 +73,7 @@ test("POST api/flashcards returns 400 if invalid body provided", async () => {
   equal(response.status, 400);
 });
 
-test("DELETE api/flashcards/:id removes a flashcard and returns 204", async () => {
+test("DELETE api/flashcards/:id removes a flashcard and returns 204 No Content", async () => {
   const flashcardToDelete = { ...TEST_DB[0] };
   const response = await request(app).delete(
     `/api/flashcards/${flashcardToDelete.id}`,
@@ -87,7 +87,7 @@ test("DELETE api/flashcards/:id removes a flashcard and returns 204", async () =
   equal(flashcards.includes(flashcardToDelete), false);
 });
 
-test("PATCH api/flashcards/:id updates a flashcard and returns 204", async () => {
+test("PATCH api/flashcards/:id updates a flashcard and returns 204 No Content", async () => {
   const answer = "Acapulco";
   const response = await request(app)
     .patch(`/api/flashcards/${TEST_FLASHCARD.id}`)
@@ -101,7 +101,7 @@ test("PATCH api/flashcards/:id updates a flashcard and returns 204", async () =>
   equal(flashcard.answer, answer);
 });
 
-test("POST /api/users/register returns 201", async () => {
+test("POST /api/users/register returns 201 Created", async () => {
   const userToRegister = {
     email: "test@test.com",
     password: "f;ajfon:#R:J@R3",
@@ -115,7 +115,7 @@ test("POST /api/users/register returns 201", async () => {
   equal(response.status, 201);
 });
 
-test("POST /api/users/register registering same user twice returns 400 BAD REQUEST", async () => {
+test("POST /api/users/register registering same user twice returns 409 Conflict", async () => {
   const userToRegister = {
     email: "test@test.com",
     password: "password",
@@ -132,7 +132,7 @@ test("POST /api/users/register registering same user twice returns 400 BAD REQUE
   equal(response.text, "User with such email is already registered");
 });
 
-test("POST /api/users/login returns 200 and access token", async () => {
+test("POST /api/users/login returns 200 OK and access token", async () => {
   const userToLogin = TEST_USER;
 
   const response = await request(app)
